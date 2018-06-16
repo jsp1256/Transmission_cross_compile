@@ -1,7 +1,14 @@
 ##prepare.sh　　　　
 ##version：1.1　　　
+#检测执行用户
 USER=`whoami`
-USER_ROOT=/home/$USER/
+#配置全局位置变量
+if [ $USER = root ]
+then 
+　　$USER_ROOT=/$USER
+else
+　　USER_ROOT=/home/$USER/
+fi
 BUILD_ROOT=$USER_ROOT/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 CROSS_COMPILER_STAGING_DIR=$BUILD_ROOT/PandoraBoxSDK/staging_dir/
