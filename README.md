@@ -1,0 +1,2 @@
+# Transmission_cross_compile
+这个是Transmission交叉编译的一个脚本集合，目标平台mipsel。
