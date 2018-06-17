@@ -42,13 +42,14 @@ wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz
 tar zxf openssl-1.1.0h.tar.gz
 rm -f openssl-1.1.0h.tar.gz
 cd openssl-1.1.0h
-./config no-asm --prefix=$PREFIX
+./config no-asm zlib-dynamic --prefix=$PREFIX
 #因为原配置文件不能自动配置交叉编译环境，针对交叉编译器修正一些配置
 echo 修正Makefile文件
 sed -i  's/-m64//g' Makefile
-sed -i  's/CROSS_COMPILE= /CROSS_COMPILE=mipsel-openwrt-linux-/g' Makefile
+sed -i  's/CROSS_COMPILE=/CROSS_COMPILE=mipsel-openwrt-linux-/g' Makefile
 make -j$THREAD
 make install
+cp -r install/openssl $CROSS_COMPILER_ROOT/../include
 cd $BUILD_ROOT
 mv openssl-1.1.0h $BUILD_ROOT_FINISHED/openssl-1.1.0h
 #编译libevent
