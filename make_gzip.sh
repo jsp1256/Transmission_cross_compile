@@ -34,9 +34,9 @@ cp $PREFIX_EXEC/transmission-daemon .
 cp $PREFIX_EXEC/transmission-remote .
 if [ need_curl_openssl = 1 ]
 then
-　　cp $PREFIX_EXEC/curl
-　　cp $PREFIX_EXEC/curl-config
-　　cp $PREFIX_EXEC/openssl
+    cp $PREFIX_EXEC/curl
+    cp $PREFIX_EXEC/curl-config
+    cp $PREFIX_EXEC/openssl
 fi
 #复制相关依赖库
 mkdir $PACKAGE_DIR_LIB
@@ -64,15 +64,15 @@ cd transmission
 echo 检查是否使用新版UI，默认开启
 if [ Webui = 1 ]
 then
-　　echo 使用新版UI
-　　wget https://github.com/ronggang/transmission-web-control/archive/v1.6.0-alpha.zip
-　　unzip  v1.6.0-alpha.zip
-　　mv transmission-web-control-1.6.0-alpha/src/ web
-　　rm -f v1.6.0-alpha.zip
-　　rm -rf transmission-web-control-1.6.0-alpha/
+    echo 使用新版UI
+    wget https://github.com/ronggang/transmission-web-control/archive/v1.6.0-alpha.zip
+    unzip  v1.6.0-alpha.zip
+    mv transmission-web-control-1.6.0-alpha/src/ web
+    rm -f v1.6.0-alpha.zip
+    rm -rf transmission-web-control-1.6.0-alpha/
 else
-　　echo 使用原版UI
-　　cp -R $PREFIX_SHARE/transmission/web/ .
+    echo 使用原版UI
+    cp -R $PREFIX_SHARE/transmission/web/ .
 fi
 #执行打包操作
 cd $BUILD_ROOT
