@@ -112,7 +112,7 @@ cd curl-7.54.0
 make -j$THREAD
 make install
 cd $BUILD_ROOT
-mv expat-2.1.0 $BUILD_ROOT_FINISHED/expat-2.1.0
+mv curl-7.54.0 $BUILD_ROOT_FINISHED/curl-7.54.0
 #编译Transmission（本次的主角）
 echo 开始编译Transmission
 cd $BUILD_ROOT
