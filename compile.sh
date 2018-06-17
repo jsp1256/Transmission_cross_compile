@@ -12,6 +12,8 @@ then
     exit 1
 fi
 mkdir $BUILD_ROOT
+cd $BUILD_ROOT
+mkdir $BUILD_ROOT_FINISHED
 #编译expat
 echo 开始编译expat
 cd $BUILD_ROOT
