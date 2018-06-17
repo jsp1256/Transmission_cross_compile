@@ -1,8 +1,8 @@
 ##compile_clean.sh
 ##version:1.2
 USER=`whoami`
-USER_ROOT=/$USER
-BUILD_ROOT=$USER_ROOT/build
+basepath=$(cd `dirname $0`; pwd)
+BUILD_ROOT=$basepath/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 #是否执行反安装操作,默认不执行，写1执行
 isuninstall=0
