@@ -11,8 +11,8 @@ then
     echo 需要root权限执行编译
     exit 1
 fi
+#配置工作目录
 mkdir $BUILD_ROOT
-cd $BUILD_ROOT
 mkdir $BUILD_ROOT_FINISHED
 #编译expat
 echo 开始编译expat
