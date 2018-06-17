@@ -22,7 +22,7 @@ tar zxf expat-2.1.0.tar.gz
 rm -f expat-2.1.0.tar.gz
 cd expat-2.1.0
 ./configure
-make　-j$THREAD
+make -j$THREAD
 make install
 cd $BUILD_ROOT
 mv expat-2.1.0 $BUILD_ROOT_FINISHED/expat-2.1.0
