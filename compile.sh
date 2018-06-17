@@ -1,8 +1,8 @@
 ##compile.sh
 ##version:1.4
 USER=`whoami`
-USER_ROOT=/$USER
-BUILD_ROOT=$USER_ROOT/build
+basepath=$(cd `dirname $0`; pwd)
+BUILD_ROOT=$basepath/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/<br>#编译使用的线程数
 THREAD=１
 if [ $USER != root ]
