@@ -32,7 +32,7 @@ cp $PREFIX_EXEC/transmission-edit .
 cp $PREFIX_EXEC/transmission-show.
 cp $PREFIX_EXEC/transmission-daemon .
 cp $PREFIX_EXEC/transmission-remote .
-if [ need_curl_openssl = 1 ]
+if [ $need_curl_openssl = 1 ]
 then
     cp $PREFIX_EXEC/curl
     cp $PREFIX_EXEC/curl-config
