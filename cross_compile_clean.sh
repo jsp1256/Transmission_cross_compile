@@ -2,14 +2,8 @@
 ##version:1.1
 USER=`whoami`
 #配置全局位置变量
-#cross_compile.sh使用的哪个用户本次依旧由那个用户调用执行
-if [ $USER = root ]
-then
-　　$USER_ROOT=/$USER
-else
-　　USER_ROOT=/home/$USER/
-fi
-BUILD_ROOT=$USER_ROOT/build
+basepath=$(cd `dirname $0`; pwd)
+BUILD_ROOT=$basepath/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 CROSS_COMPILER_STAGING_DIR=$BUILD_ROOT/PandoraBoxSDK/staging_dir/
 CROSS_COMPILER_ROOT=$CROSS_COMPILER_STAGING_DIR/toolchain-mipsel_24kec+dsp_gcc-5.4.0_uClibc-1.0.x/bin/
