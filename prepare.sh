@@ -1,5 +1,13 @@
 ##prepare.sh　　　　
-##version：1.2　　　
+##version：1.2
+#检测当前用户
+USER=`whoami`
+if [ $USER = root ]
+then
+    USER_ROOT=""/$USER/
+else
+    USER_ROOT="/home/"$USER
+fi
 #配置全局位置变量
 basepath=$(cd `dirname $0`; pwd)
 BUILD_ROOT=$basepath/build/
