@@ -6,9 +6,8 @@ Webui=1
 #curl,openssl复制设置
 need_curl_openssl=0
 #执行用户检测
-USER=`whoami`<br>#配置全局位置变量<br>if [ $USER = root ]<br>then <br>　　$USER_ROOT=/$USER<br>else<br>　　USER_ROOT=/home/$USER/<br>fi
-USER_ROOT=/home/$USER/
-BUILD_ROOT=$USER_ROOT/build/
+basepath=$(cd `dirname $0`; pwd)
+BUILD_ROOT=$basepath/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 CROSS_COMPILER_STAGING_DIR=$BUILD_ROOT/PandoraBoxSDK/staging_dir/
 CROSS_COMPILER_ROOT=$CROSS_COMPILER_STAGING_DIR/toolchain-mipsel_24kec+dsp_gcc-5.4.0_uClibc-1.0.x/bin/
