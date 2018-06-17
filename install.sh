@@ -1,5 +1,6 @@
 ##install.sh
 ##version:1.1
+##该脚本必须以root用户执行
 #获取当前的绝对路径
 basepath=$(cd `dirname $0`; pwd)
 #package的绝对路径
@@ -11,7 +12,9 @@ INSTALL_LIBPATH=$INSTALL_PATH/lib/
 INSTALL_SHAREPATH=$INSTALL_PATH/share/
 ##
 tar zxf package.tar.gz
+rm package.tar.gz
 cd package
+chmod -R a+x bin/
 #创建软连接到程序目录，如果不需要软连接，请去除-s参数
 ln -s $PACKAGE_DIR/bin/* $INSTALL_EXECPATH
 ln -s $PACKAGE_DIR/lib/* $INSTALL_LIBPATH
