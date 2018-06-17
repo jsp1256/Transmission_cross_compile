@@ -7,7 +7,7 @@ if [ $USER = root ]
 then 
 　　$USER_ROOT=/$USER
 else
-　　USER_ROOT=/home/$USER/
+　　$USER_ROOT=/home/$USER/
 fi
 BUILD_ROOT=$USER_ROOT/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
