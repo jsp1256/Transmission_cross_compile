@@ -65,40 +65,40 @@ cd $BUILD_ROOT
 mv libevent-2.1.8-stable $BUILD_ROOT_FINISHED/libevent-2.1.8-stable
  
 #可选：编译libssh2
-echo 检查是否编译libssh2
+echo "检查是否编译libssh2"
 if [ $libssh2 = 1 ]
 then
-　　echo libssh2编译被激活，开始编译libssh2
-  cd $BUILD_ROOT
-　　wget https://www.libssh2.org/download/libssh2-1.8.0.tar.gz
-　　tar zxf libssh2-1.8.0.tar.gz
-　　rm -f libssh2-1.8.0.tar.gz
-　　cd libssh2-1.8.0
-　　CFLAGS="-g -O3" ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --with-libssl-prefix=$PREFIX --with-libgcrypt-prefix=$PREFIX --with-libz-prefix=$PREFIX
-　　make -j$THREAD
-　　make install
-　　cd $BUILD_ROOT
-　　mv libssh2-1.8.0 $BUILD_ROOT_FINISHED/libssh2-1.8.0
+   echo "libssh2编译被激活，开始编译libssh2"
+   cd $BUILD_ROOT
+   wget https://www.libssh2.org/download/libssh2-1.8.0.tar.gz
+   tar zxf libssh2-1.8.0.tar.gz
+   rm -f libssh2-1.8.0.tar.gz
+   cd libssh2-1.8.0
+   CFLAGS="-g -O3" ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --with-libssl-prefix=$PREFIX --with-libgcrypt-prefix=$PREFIX --with-libz-prefix=$PREFIX
+   make -j$THREAD
+   make install
+   cd $BUILD_ROOT
+   mv libssh2-1.8.0 $BUILD_ROOT_FINISHED/libssh2-1.8.0
 else
-　　echo libssh2未配置编译，跳过
+   echo "libssh2未配置编译，跳过"
 fi
 #可选：编译nghttp2
-echo 检查是否编译nghttp2
+echo "检查是否编译nghttp2"
 if [ $nghttp2 = 1 ]
 then
-　　echo nghttp2编译被激活，开始编译nghttp2
-　　cd $BUILD_ROOT
-　　wget https://github.com/nghttp2/nghttp2/releases/download/v1.32.0/nghttp2-1.32.0.tar.gz
-　　tar zxf nghttp2-1.32.0.tar.gz
-　　rm -f nghttp2-1.32.0.tar.gz
-　　cd nghttp2-1.32.0
-　　CFLAGS="-g -O3" CXXFLAGS="-g -O3" ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --enable-lib-only
-　　make -j$THREAD
-　　make install
-　　cd $BUILD_ROOT
-　　mv nghttp2-1.32.0 $BUILD_ROOT_FINISHED/nghttp2-1.32.0
+   echo "nghttp2编译被激活，开始编译nghttp2"
+   cd $BUILD_ROOT
+   wget https://github.com/nghttp2/nghttp2/releases/download/v1.32.0/nghttp2-1.32.0.tar.gz
+   tar zxf nghttp2-1.32.0.tar.gz
+   rm -f nghttp2-1.32.0.tar.gz
+   cd nghttp2-1.32.0
+   CFLAGS="-g -O3" CXXFLAGS="-g -O3" ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --enable-lib-only
+   make -j$THREAD
+   make install
+   cd $BUILD_ROOT
+   mv nghttp2-1.32.0 $BUILD_ROOT_FINISHED/nghttp2-1.32.0
 else
-　　echo nghttp2未配置编译，跳过
+   echo "nghttp2未配置编译，跳过"
 fi
 #编译libcurl
 echo 开始编译libcurl
@@ -106,7 +106,8 @@ cd $BUILD_ROOT
 wget http://down.whsir.com/downloads/curl-7.54.0.tar.gz
 tar zxf curl-7.54.0.tar.gz
 rm -f curl-7.54.0.tar.gz
-cd curl-7.54.0<br>#根据上面可选编译执行的情况，如果选择了libcurl会自动加入libssh2和http2库文件支持
+cd curl-7.54.0
+#根据上面可选编译执行的情况，如果选择了libcurl会自动加入libssh2和http2库文件支持
 ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX
 make -j$THREAD
 make install
