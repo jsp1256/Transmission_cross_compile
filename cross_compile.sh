@@ -1,8 +1,14 @@
 ##cross_compile.sh
 ##version:1.5
 #监测执行用户
-USER=`whoami`<br>#配置全局位置变量<br>if [ $USER = root ]<br>then <br>　　$USER_ROOT=/$USER<br>else
-　　USER_ROOT=/home/$USER/<br>fi
+USER=`whoami`
+#配置全局位置变量
+if [ $USER = root ]
+then 
+    $USER_ROOT=/$USER
+else
+　　USER_ROOT=/home/$USER/
+fi
 BUILD_ROOT=$USER_ROOT/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 PACKAGE_DIR=$BUILD_ROOT/package
