@@ -1,15 +1,8 @@
 ##prepare.sh　　　　
-##version：1.1　　　
-#检测执行用户
-USER=`whoami`
+##version：1.2　　　
 #配置全局位置变量
-if [ $USER = root ]
-then 
-　　$USER_ROOT=/$USER
-else
-　　$USER_ROOT=/home/$USER/
-fi
-BUILD_ROOT=$USER_ROOT/build/
+basepath=$(cd `dirname $0`; pwd)
+BUILD_ROOT=$basepath/build/
 BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
 CROSS_COMPILER_STAGING_DIR=$BUILD_ROOT/PandoraBoxSDK/staging_dir/
 CROSS_COMPILER_ROOT=$CROSS_COMPILER_STAGING_DIR/toolchain-mipsel_24kec+dsp_gcc-5.4.0_uClibc-1.0.x/bin/
