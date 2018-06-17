@@ -31,8 +31,8 @@ cd zlib-1.2.11
 CC=mipsel-openwrt-linux-gcc ./configure --prefix=$PREFIX
 make -j$THREAD
 make install
-cp zlib.h $CROSS_COMPILER_STAGING_DIR/../include
-cp zconf.h $CROSS_COMPILER_STAGING_DIR/../include
+cp zlib.h $CROSS_COMPILER_ROOT/../include
+cp zconf.h $CROSS_COMPILER_ROOT/../include
 cd $BUILD_ROOT
 mv zlib-1.2.11 $BUILD_ROOT_FINISHED/zlib-1.2.11
 #编译openssl
