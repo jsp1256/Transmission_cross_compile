@@ -3,8 +3,9 @@
 USER=`whoami`
 basepath=$(cd `dirname $0`; pwd)
 BUILD_ROOT=$basepath/build/
-BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/<br>#编译使用的线程数
-THREAD=１
+BUILD_ROOT_FINISHED=$BUILD_ROOT/finished/
+#编译使用的线程数
+THREAD=1
 if [ $USER != root ]
 then
     echo 需要root权限执行编译
