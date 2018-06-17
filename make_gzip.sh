@@ -62,7 +62,7 @@ cd ..
 mkdir transmission
 cd transmission
 echo 检查是否使用新版UI，默认开启
-if [ Webui = 1 ]
+if [ $Webui = 1 ]
 then
     echo 使用新版UI
     wget https://github.com/ronggang/transmission-web-control/archive/v1.6.0-alpha.zip
