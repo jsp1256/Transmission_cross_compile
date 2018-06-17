@@ -18,6 +18,9 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
 #写1开启
 libssh2=0
 nghttp2=0
+#配置工作目录
+mkdir $BUILD_ROOT
+mkdir $BUILD_ROOT_FINISHED
 #编译zlib
 echo 开始编译zlib
 cd $BUILD_ROOT
