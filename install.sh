@@ -35,3 +35,4 @@ ln -s -f $INSTALL_LIBPATH/libz.so.1.2.11 $INSTALL_LIBPATH/libz.so
 echo \#transmission add >> /etc/sysctl.conf
 echo net.core.rmem_max = 4194304 >> /etc/sysctl.conf
 echo net.core.wmem_max = 1048576 >> /etc/sysctl.conf
+sysctl -p /etc/sysctl.conf
