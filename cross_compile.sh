@@ -15,8 +15,8 @@ PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 #PKG_CONFIG_PATH位置的声明
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
 #SSL编译配置，互斥：
-openssl = 1;
-wolfssl = 0;
+openssl = 1
+wolfssl = 0
 #可选编译配置
 #写0关闭，默认开启
 libssh2=1
@@ -59,7 +59,7 @@ then
    cp -r install/openssl $CROSS_COMPILER_ROOT/../include
    cd $BUILD_ROOT
    mv openssl-1.1.0h $BUILD_ROOT_FINISHED/openssl-1.1.0h
-else if [ $wolfssl = 1 ]
+elif [ $wolfssl = 1 ]
 then
    #编译wolfssl
    echo 开始编译wolfssl
