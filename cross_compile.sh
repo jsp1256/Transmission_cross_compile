@@ -15,8 +15,8 @@ PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 #PKG_CONFIG_PATH位置的声明
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
 #SSL编译配置，互斥：
-openssl = 1
-wolfssl = 0
+openssl=1
+wolfssl=0
 #可选编译配置
 #写0关闭，默认开启
 libssh2=1
@@ -67,7 +67,7 @@ then
    unzip wolfssl-3.15.0.zip
    rm wolfssl-3.15.0.zip
    cd wolfssl-3.15.0
-   ./configure wolfssl-3.15.0# ./configure --host=mipsel-openwrt-linux --enable-all --enable-ipv6 --with-libz=$PREFIX --prefix=$PREFIX
+   ./configure --host=mipsel-openwrt-linux --enable-all --enable-ipv6 --with-libz=$PREFIX --prefix=$PREFIX
    make
    make install
    #复制相关头文件至编译器目录
@@ -85,10 +85,13 @@ cd libevent-2.1.8-stable
 ./configure --host=mipsel-openwrt-linux --disable-samples --prefix=$PREFIX
 make -j$THREAD
 make install
+#复制相关头文件至编译器目录
+cp -r include/event2/ $CROSS_COMPILER_ROOT/../include
 cd $BUILD_ROOT
 mv libevent-2.1.8-stable $BUILD_ROOT_FINISHED/libevent-2.1.8-stable
  
 #可选：编译libssh2
+#如果使用wolfssl，貌似不能通过libssh2的配置文件
 echo "检查是否编译libssh2"
 if [ $libssh2 = 1 ]
 then
@@ -132,7 +135,7 @@ tar zxf curl-7.54.0.tar.gz
 rm -f curl-7.54.0.tar.gz
 cd curl-7.54.0
 #根据上面可选编译执行的情况，如果选择了libcurl会自动加入libssh2和http2库文件支持
-./configure --host=mipsel-openwrt-linux --prefix=$PREFIX
+./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --with-cyassl --with-libssh2
 make -j$THREAD
 make install
 cd $BUILD_ROOT
