@@ -56,13 +56,14 @@ then
    make -j$THREAD
    make install
    #复制相关头文件至编译器目录
-   cp -r install/openssl $CROSS_COMPILER_ROOT/../include
+   cp -r install/openssl $CROSS_COMPILER_ROOT/../include/
    cd $BUILD_ROOT
    mv openssl-1.1.0h $BUILD_ROOT_FINISHED/openssl-1.1.0h
 elif [ $wolfssl = 1 ]
 then
    #编译wolfssl
    echo 开始编译wolfssl
+   cd $BUILD_ROOT
    wget https://github.com/jsp1256/Transmission_cross_compile/raw/master/package/wolfssl-3.15.0.zip
    unzip wolfssl-3.15.0.zip
    rm wolfssl-3.15.0.zip
@@ -71,7 +72,8 @@ then
    make
    make install
    #复制相关头文件至编译器目录
-   cp -r cyassl/openssl/ $CROSS_COMPILER_ROOT/../include
+   cp -r wolfssl/ $CROSS_COMPILER_ROOT/../include/
+   cp -r cyassl/ $CROSS_COMPILER_ROOT/../include/
    cd $BUILD_ROOT
    mv wolfssl-3.15.0 $BUILD_ROOT_FINISHED/wolfssl-3.15.0
 fi
@@ -82,11 +84,18 @@ wget http://down.whsir.com/downloads/libevent-2.1.8-stable.tar.gz
 tar zxf libevent-2.1.8-stable.tar.gz
 rm-f libevent-2.1.8-stable.tar.gz
 cd libevent-2.1.8-stable
-./configure --host=mipsel-openwrt-linux --disable-samples --prefix=$PREFIX
+if [ $openssl = 1]
+   ./configure --host=mipsel-openwrt-linux -disable-samples --prefix=$PREFIX
+elif [ $wolfssl = 1 ]
+   ./configure --host=mipsel-openwrt-linux -disable-samples --prefix=$PREFIX --disable-openssl
+else
+   echo 没有配置openssl库，取消编译
+   exit 1
+fi
 make -j$THREAD
 make install
 #复制相关头文件至编译器目录
-cp -r include/event2/ $CROSS_COMPILER_ROOT/../include
+cp -r include/event2/ $CROSS_COMPILER_ROOT/../include/
 cd $BUILD_ROOT
 mv libevent-2.1.8-stable $BUILD_ROOT_FINISHED/libevent-2.1.8-stable
  
@@ -135,7 +144,18 @@ tar zxf curl-7.54.0.tar.gz
 rm -f curl-7.54.0.tar.gz
 cd curl-7.54.0
 #根据上面可选编译执行的情况，如果选择了libcurl会自动加入libssh2和http2库文件支持
-./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --with-cyassl --with-libssh2
+if [ $openssl = 1]
+   ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX
+elif [ $wolfssl = 1 ]
+   #hostip6.c:218:11: error: implicit declaration of function 'Curl_getaddrinfo_ex' [-Werror=implicit-function-declaration]
+   #hostip6.c:225:5: error: implicit declaration of function 'Curl_addrinfo_set_por ' [-Werror=implicit-function-declaration]
+   #./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --with-cyassl
+   #因为以上原因放弃curl集成libwolfssl，待找到修复方式后恢复
+   ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX
+else
+   echo 没有配置openssl库，取消编译
+   exit 1
+fi
 make -j$THREAD
 make install
 cd $BUILD_ROOT
@@ -152,7 +172,14 @@ echo 依平台修正libtransmission下的platform-quota.c
 sed -i  's/spaceused = (int64_t) btodb(dq.dqb_curblocks);/spaceused = (int64_t) btodb(dq.dqb_curspace);/g' platform-quota.c
 cd ..
 #如果你编译的目标机处理能力不强，请加上--enable-lightweight参数
-./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --enable-nls
+if [ $openssl = 1]
+   ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --enable-nls
+elif [ $wolfssl = 1 ]
+   ./configure --host=mipsel-openwrt-linux --prefix=$PREFIX --enable-nls --with-crypto=cyassl
+else
+   echo 没有配置openssl库，取消编译
+   exit 1
+fi
 make -j$THREAD
 make install
 cd $BUILD_ROOT
