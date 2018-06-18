@@ -14,10 +14,13 @@ PREFIX=$CROSS_COMPILER_STAGING_DIR/toolchain-mipsel_24kec+dsp_gcc-5.4.0_uClibc-1
 PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 #PKG_CONFIG_PATH位置的声明
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+#SSL编译配置，互斥：
+openssl = 1;
+wolfssl = 0;
 #可选编译配置
-#写1开启
-libssh2=0
-nghttp2=0
+#写0关闭，默认开启
+libssh2=1
+nghttp2=1
 #配置工作目录
 mkdir $BUILD_ROOT
 mkdir $BUILD_ROOT_FINISHED
@@ -31,27 +34,47 @@ cd zlib-1.2.11
 CC=mipsel-openwrt-linux-gcc ./configure --prefix=$PREFIX
 make -j$THREAD
 make install
+#复制相关头文件至编译器目录
 cp zlib.h $CROSS_COMPILER_ROOT/../include
 cp zconf.h $CROSS_COMPILER_ROOT/../include
 cd $BUILD_ROOT
 mv zlib-1.2.11 $BUILD_ROOT_FINISHED/zlib-1.2.11
-#编译openssl
-echo 开始编译openssl
-cd $BUILD_ROOT
-wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz
-tar zxf openssl-1.1.0h.tar.gz
-rm -f openssl-1.1.0h.tar.gz
-cd openssl-1.1.0h
-./config no-asm zlib-dynamic --prefix=$PREFIX
-#因为原配置文件不能自动配置交叉编译环境，针对交叉编译器修正一些配置
-echo 修正Makefile文件
-sed -i  's/-m64//g' Makefile
-sed -i  's/CROSS_COMPILE=/CROSS_COMPILE=mipsel-openwrt-linux-/g' Makefile
-make -j$THREAD
-make install
-cp -r install/openssl $CROSS_COMPILER_ROOT/../include
-cd $BUILD_ROOT
-mv openssl-1.1.0h $BUILD_ROOT_FINISHED/openssl-1.1.0h
+if [ $openssl = 1 ]
+then
+   #编译openssl
+   echo 开始编译openssl
+   cd $BUILD_ROOT
+   wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz
+   tar zxf openssl-1.1.0h.tar.gz
+   rm -f openssl-1.1.0h.tar.gz
+   cd openssl-1.1.0h
+   ./config no-asm zlib-dynamic --prefix=$PREFIX
+   #因为原配置文件不能自动配置交叉编译环境，针对交叉编译器修正一些配置
+   echo 修正Makefile文件
+   sed -i  's/-m64//g' Makefile
+   sed -i  's/CROSS_COMPILE=/CROSS_COMPILE=mipsel-openwrt-linux-/g' Makefile
+   make -j$THREAD
+   make install
+   #复制相关头文件至编译器目录
+   cp -r install/openssl $CROSS_COMPILER_ROOT/../include
+   cd $BUILD_ROOT
+   mv openssl-1.1.0h $BUILD_ROOT_FINISHED/openssl-1.1.0h
+else if [ $wolfssl = 1 ]
+then
+   #编译wolfssl
+   echo 开始编译wolfssl
+   wget https://github.com/jsp1256/Transmission_cross_compile/raw/master/package/wolfssl-3.15.0.zip
+   unzip wolfssl-3.15.0.zip
+   rm wolfssl-3.15.0.zip
+   cd wolfssl-3.15.0
+   ./configure wolfssl-3.15.0# ./configure --host=mipsel-openwrt-linux --enable-all --enable-ipv6 --with-libz=$PREFIX --prefix=$PREFIX
+   make
+   make install
+   #复制相关头文件至编译器目录
+   cp -r cyassl/openssl/ $CROSS_COMPILER_ROOT/../include
+   cd $BUILD_ROOT
+   mv wolfssl-3.15.0 $BUILD_ROOT_FINISHED/wolfssl-3.15.0
+fi
 #编译libevent
 echo 开始编译libevent
 cd $BUILD_ROOT
